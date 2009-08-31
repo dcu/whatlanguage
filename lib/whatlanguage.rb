@@ -12,7 +12,16 @@ class WhatLanguage
   
   def initialize(options = {})
     languages_folder = File.join(File.dirname(__FILE__), "..", "lang")
-    Dir.entries(languages_folder).grep(/\.lang/).each do |lang|
+    if options.is_a?(Enumerable)
+      language_files = []
+      options.each do |lang|
+        file_name = "#{lang.to_s}.lang"
+        language_files << file_name if File.exist?(File.join(languages_folder, file_name))
+      end
+    else
+      language_files = Dir.entries(languages_folder).grep(/\.lang/)
+    end
+    language_files.each do |lang|
       @@data[lang[/\w+/].to_sym] ||= BloominSimple.from_dump(File.new(File.join(languages_folder, lang), 'rb').read, &HASHER)
     end
   end
