@@ -31,8 +31,9 @@ class WhatLanguage
   end
   
   def reinit(options = {})
-    @@data = nil
-    initialize(options = {})
+    @@data = {}
+    initialize(options)
+    return true
   end
   
   # Very inefficient method for now.. but still beats the non-Bloom alternatives.
