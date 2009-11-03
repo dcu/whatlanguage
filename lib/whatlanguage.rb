@@ -4,17 +4,35 @@ require 'digest/sha1'
 class WhatLanguage
   VERSION = '1.0.3'
   
-  HASHER = lambda { |item| Digest::SHA1.digest(item.downcase.strip).unpack("VV") }
+  HASHERS = [ 
+                     lambda { |item| Digest::SHA1.digest(item.downcase.strip).unpack("VV") } ,
+                     lambda { |item| Digest::SHA2.digest(item.downcase.strip).unpack("xxxxVVVVVVV") }
+                  ]
   
   BITFIELD_WIDTH = 2_000_000
   
   @@data = {}
   
   def initialize(options = {})
-    languages_folder = File.join(File.dirname(__FILE__), "..", "lang")
-    Dir.entries(languages_folder).grep(/\.lang/).each do |lang|
-      @@data[lang[/\w+/].to_sym] ||= BloominSimple.from_dump(File.new(File.join(languages_folder, lang), 'rb').read, &HASHER)
+    lang = hashType= nil
+    if options == :large || (options.kind_of?(Hash) && options[:large])
+      lang = "lang-lg"
+    else
+      lang = "lang"
     end
+    languages_folder = File.join(File.dirname(__FILE__), "..", lang)
+    Dir.entries(languages_folder).grep(/\.lang/).each do |lang|
+      if !@@data[lang[/\w+/].to_sym]
+        lfile = File.new(File.join(languages_folder, lang), 'rb')
+        hashType = lfile.read(4).unpack("I")[0]
+        @@data[lang[/\w+/].to_sym] = BloominSimple.from_dump(lfile.read, &HASHERS[hashType])
+      end
+    end
+  end
+  
+  def reinit(options = {})
+    @@data = nil
+    initialize(options = {})
   end
   
   # Very inefficient method for now.. but still beats the non-Bloom alternatives.
@@ -45,11 +63,28 @@ class WhatLanguage
     process_text(text).max { |a,b| a[1] <=> b[1] }.first rescue nil
   end
   
-  def self.filter_from_dictionary(filename)
-    bf = BloominSimple.new(BITFIELD_WIDTH, &HASHER)
-    File.open(filename).each { |word| bf.add(word) }
-    bf
+  def self.filter_from_dictionary(filename, outfilename, options = {})
+    size = 0
+    hasher = nil
+    infile = File.open(filename)
+    if options == :large || options[:large] 
+      lines = 0
+      infile.each {|word| lines += 1}
+      size = 10*lines
+      hasherId = 1
+    else
+      size = BITFIELD_WIDTH
+      hasherId = 0
+    end
+    bf = BloominSimple.new(size, &HASHERS[hasherId])
+    infile.rewind
+    infile.each { |word| bf.add(word) }
+    outfile = File.open(outfilename,"wb")
+    outfile.write([hasherId].pack("I"))
+    outfile.write(bf.dump)
+    outfile.close
   end
+  
 end
 
 class String

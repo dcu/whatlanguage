@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
-  s.name     = "whatlanguage"
-  s.version  = "1.0.3"
-  s.date     = "2008-09-29"
+  s.name     = "kenwaln-whatlanguage"
+  s.version  = "1.0.4"
+  s.date     = "2009-11-02"
   s.summary  = "Natural language detection for text samples"
-  s.email    = "whatlanguage@peterc.org"
-  s.homepage = "http://github.com/peterc/whatlanguage"
+  s.email    = "kenwaln@pacbell.net"
+  s.homepage = "http://github.com/kenwaln/whatlanguage"
   s.description = "WhatLanguage rapidly detects the language of a sample of text"
   s.has_rdoc = true
-  s.authors  = ["Peter Cooper"]
+  s.authors  = ["Peter Cooper", "Ken Waln"]
   s.files    = [
 "build_filter.rb",
 "build_lang_from_wordlists.rb",
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
 "README",
 "README.txt",
 "test/test_whatlanguage.rb",
+"test/test_whatlanguage_lg.rb",
 "whatlanguage.gemspec"]
 
   s.rdoc_options = ["--main", "README.txt"]

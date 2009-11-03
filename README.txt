@@ -1,8 +1,6 @@
 whatlanguage
-    by Peter Cooper
-    http://www.petercooper.co.uk/
-    http://www.rubyinside.com/
-
+    forked by Ken Waln from peterc-whatlanguage by Peter Cooper
+    
 == DESCRIPTION:
   
 Text language detection. Quick, fast, memory efficient, and all in pure Ruby. Uses Bloom filters for aforementioned speed and memory benefits.
@@ -14,6 +12,9 @@ Works with Dutch, English, Farsi, French, German, Swedish, Portuguese, Russian a
 * It can be made far more efficient at the comparison stage, but all in good time..! It still beats literal dictionary approaches.
 * No filter selection yet, you get 'em all loaded.
 * Tests are reasonably light.
+* This fork added a "large" option which uses larger fields based on language dictionary size and a
+   better hashing scheme to get less than 1% false positives per word. Tradeoff is speed and 
+   memory usage.
 
 == SYNOPSIS:
 
@@ -30,8 +31,8 @@ Works with Dutch, English, Farsi, French, German, Swedish, Portuguese, Russian a
     
     texts.each { |text| puts "#{text[0..18]}... is in #{text.language.to_s.capitalize}" }
 
-  Initialize WhatLanguage with all filters
-    wl = WhatLanguage.new(:all)
+  Initialize WhatLanguage with large dictionaries
+    wl = WhatLanguage.new(:large)
 
   Return language with best score
     wl.language(text)
@@ -48,8 +49,8 @@ Works with Dutch, English, Farsi, French, German, Swedish, Portuguese, Russian a
 
 == INSTALLATION:
 
-  gem sources -a http://gems.github.com
-  sudo gem install peterc-whatlanguage
+  gem sources -a http://gemcutter.org
+  sudo gem install kenwaln-whatlanguage
 
   To test, go into irb, then:
 
@@ -61,6 +62,7 @@ Works with Dutch, English, Farsi, French, German, Swedish, Portuguese, Russian a
 (The MIT License)
 
 Copyright (c) 2007-2008 Peter Cooper
+Changes Copyright (c) 2009 Ken Waln
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
