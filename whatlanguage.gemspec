@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "kenwaln-whatlanguage"
-  s.version  = "1.0.4"
+  s.version  = "1.0.5"
   s.date     = "2009-11-02"
   s.summary  = "Natural language detection for text samples"
   s.email    = "kenwaln@pacbell.net"
@@ -23,6 +23,16 @@ Gem::Specification.new do |s|
 "lang/russian.lang",
 "lang/spanish.lang",
 "lang/swedish.lang",
+"lang-lg/dutch.lang",
+"lang-lg/english.lang",
+"lang-lg/farsi.lang",
+"lang-lg/french.lang",
+"lang-lg/german.lang",
+"lang-lg/pinyin.lang",
+"lang-lg/portuguese.lang",
+"lang-lg/russian.lang",
+"lang-lg/spanish.lang",
+"lang-lg/swedish.lang",
 "lib/bitfield.rb",
 "lib/bloominsimple.rb",
 "lib/whatlanguage.rb",
