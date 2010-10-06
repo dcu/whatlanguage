@@ -13,6 +13,7 @@ lang/english.lang
 lang/portuguese.lang
 lang/french.lang
 lang/spanish.lang
+lang/hebrew.lang
 lib/bitfield.rb
 lib/bloominsimple.rb
 lib/whatlanguage.rb
