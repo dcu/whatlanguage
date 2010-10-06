@@ -2,31 +2,36 @@ require File.join(File.dirname(__FILE__), 'bloominsimple')
 require 'digest/sha1'
 
 class WhatLanguage
-  VERSION = '1.0.3'
+  VERSION = '1.0.7-mb'
   
   HASHERS = [ 
-                     lambda { |item| Digest::SHA1.digest(item.downcase.strip).unpack("VV") } ,
-                     lambda { |item| Digest::SHA2.digest(item.downcase.strip).unpack("xxxxVVVVVVV") }
-                  ]
+    lambda { |item| Digest::SHA1.digest(item.downcase.strip).unpack("VV") } ,
+    lambda { |item| Digest::SHA2.digest(item.downcase.strip).unpack("xxxxVVVVVVV") }
+  ]
   
   BITFIELD_WIDTH = 2_000_000
   
   @@data = {}
   
   def initialize(options = {})
-    lang = hashType= nil
+    lang = hashType = nil
     if options == :large || (options.kind_of?(Hash) && options[:large])
       lang = "lang-lg"
     else
       lang = "lang"
     end
-    languages_folder = File.join(File.dirname(__FILE__), "..", lang)
-    Dir.entries(languages_folder).grep(/\.lang/).each do |lang|
-      if !@@data[lang[/\w+/].to_sym]
-        lfile = File.new(File.join(languages_folder, lang), 'rb')
-        hashType = lfile.read(4).unpack("I")[0]
-        @@data[lang[/\w+/].to_sym] = BloominSimple.from_dump(lfile.read, &HASHERS[hashType])
+    languages_folder = File.join(File.dirname(__FILE__), "..", "lang")
+    if options.is_a?(Hash) && options[:languages].is_a?(Enumerable)
+      language_files = []
+      options[:languages].each do |lang|
+        file_name = "#{lang.to_s}.lang"
+        language_files << file_name if File.exist?(File.join(languages_folder, file_name))
       end
+    else
+      language_files = Dir.entries(languages_folder).grep(/\.lang/)
+    end
+    language_files.each do |lang|
+      @@data[lang[/\w+/].to_sym] ||= BloominSimple.from_dump(File.new(File.join(languages_folder, lang), 'rb').read, &HASHER)
     end
   end
   
