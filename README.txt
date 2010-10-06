@@ -1,20 +1,22 @@
 whatlanguage
-    forked by Ken Waln from peterc-whatlanguage by Peter Cooper
+    forked from peterc/whatlanguage
+    with change from kenwaln/whatlanguage and artiom/whatlanguage
     
 == DESCRIPTION:
   
 Text language detection. Quick, fast, memory efficient, and all in pure Ruby. Uses Bloom filters for aforementioned speed and memory benefits.
 
-Works with Dutch, English, Farsi, French, German, Swedish, Portuguese, Russian and Spanish out of the box.
+Works with Dutch, English, Farsi, French, German, Swedish, Portuguese,
+Russian, Spanish, and Hebrew out of the box.
 
 == FEATURES/PROBLEMS:
   
 * It can be made far more efficient at the comparison stage, but all in good time..! It still beats literal dictionary approaches.
 * No filter selection yet, you get 'em all loaded.
 * Tests are reasonably light.
-* This fork added a "large" option which uses larger fields based on language dictionary size and a
-   better hashing scheme to get less than 1% false positives per word. Tradeoff is speed and 
-   memory usage.
+* kenwaln's fork added a "large" option which uses larger fields based on language dictionary size and a
+  better hashing scheme to get less than 1% false positives per word. Tradeoff is speed and 
+  memory usage.
 
 == SYNOPSIS:
 
@@ -49,8 +51,8 @@ Works with Dutch, English, Farsi, French, German, Swedish, Portuguese, Russian a
 
 == INSTALLATION:
 
-  gem sources -a http://gemcutter.org
-  sudo gem install kenwaln-whatlanguage
+
+  From github: git://github.com/moeffju/whatlanguage.git
 
   To test, go into irb, then:
 
@@ -63,6 +65,8 @@ Works with Dutch, English, Farsi, French, German, Swedish, Portuguese, Russian a
 
 Copyright (c) 2007-2008 Peter Cooper
 Changes Copyright (c) 2009 Ken Waln
+Changes Copyright (c) 2009 Artiom Lunev
+Changes Copyright (c) 2010 Matthias Bauer
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
