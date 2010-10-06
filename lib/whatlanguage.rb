@@ -15,13 +15,18 @@ class WhatLanguage
   
   def initialize(options = {})
     lang = hashType = nil
-    if options == :large || (options.kind_of?(Hash) && options[:large])
+    options = { :large => true } if options == :large
+    options = { :languages => :all } if options == :all
+    options[:large] ||= false
+    options[:languages] ||= :all
+    
+    if options[:large]
       lang = "lang-lg"
     else
       lang = "lang"
     end
     languages_folder = File.join(File.dirname(__FILE__), "..", "lang")
-    if options.is_a?(Hash) && options[:languages].is_a?(Enumerable)
+    if options[:languages].is_a?(Enumerable)
       language_files = []
       options[:languages].each do |lang|
         file_name = "#{lang.to_s}.lang"
@@ -31,7 +36,11 @@ class WhatLanguage
       language_files = Dir.entries(languages_folder).grep(/\.lang/)
     end
     language_files.each do |lang|
-      @@data[lang[/\w+/].to_sym] ||= BloominSimple.from_dump(File.new(File.join(languages_folder, lang), 'rb').read, &HASHER)
+      if !@@data[lang[/\w+/].to_sym]
+        lfile = File.new(File.join(languages_folder, lang), 'rb')
+        hashType = lfile.read(4).unpack("I")[0]
+        @@data[lang[/\w+/].to_sym] = BloominSimple.from_dump(lfile.read, &HASHERS[hashType])
+      end
     end
   end
   
