@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/kenwaln/whatlanguage"
   s.description = "WhatLanguage rapidly detects the language of a sample of text"
   s.has_rdoc = true
-  s.authors  = ["Peter Cooper", "Ken Waln"]
+  s.authors  = ["Peter Cooper", "Ken Waln", "Artiom Lunev", "Matthias Bauer"]
   s.files    = [
 "build_filter.rb",
 "build_lang_from_wordlists.rb",
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
 "lang/portuguese.lang",
 "lang/russian.lang",
 "lang/spanish.lang",
+"lang/hebrew.lang",
 "lang/swedish.lang",
 "lang-lg/dutch.lang",
 "lang-lg/english.lang",
@@ -47,4 +48,3 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--main", "README.txt"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.txt"]
 end
-
